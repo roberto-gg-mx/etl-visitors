@@ -13,8 +13,8 @@ public class Visitante {
 
 	private Integer id;
 	private String email;
-	private Date fechaPrimeraVisita;
-	private Date fechaUltimaVisita;
+	private Date primeraVisita;
+	private Date ultimaVisita;
 	private int visitasTotales;
 	private int visitasAnioActual;
 	private int visitasMesActual;
@@ -23,9 +23,10 @@ public class Visitante {
 
 	public Visitante(Map<String, Object> row) {
 		try {
+			this.id = Integer.parseInt(row.get("id").toString());
 			this.email = row.get("email").toString();
-			this.fechaPrimeraVisita = formatter.parse(row.get("fechaPrimeraVisita").toString());
-			this.fechaUltimaVisita = formatter.parse(row.get("fechaUltimaVisita").toString());
+			this.primeraVisita = formatter.parse(row.get("primeraVisita").toString());
+			this.ultimaVisita = formatter.parse(row.get("ultimaVisita").toString());
 			this.visitasTotales = Integer.parseInt(row.get("visitasTotales").toString());
 			this.visitasAnioActual = Integer.parseInt(row.get("visitasAnioActual").toString());
 			this.visitasMesActual = Integer.parseInt(row.get("visitasMesActual").toString());
@@ -35,11 +36,11 @@ public class Visitante {
 		}
 	}
 
-	public Visitante(String email, Date fechaPrimeraVisita, Date fechaUltimaVisita, int visitasTotales,
+	public Visitante(String email, Date primeraVisita, Date ultimaVisita, int visitasTotales,
 			int visitasAnioActual, int visitasMesActual) {
 		this.email = email;
-		this.fechaPrimeraVisita = fechaPrimeraVisita;
-		this.fechaUltimaVisita = fechaUltimaVisita;
+		this.primeraVisita = primeraVisita;
+		this.ultimaVisita = ultimaVisita;
 		this.visitasTotales = visitasTotales;
 		this.visitasAnioActual = visitasAnioActual;
 		this.visitasMesActual = visitasMesActual;
@@ -55,7 +56,7 @@ public class Visitante {
 		this.id = id;
 	}
 
-	@Column(length=63)
+	@Column(length=63, nullable=false)
 	public String getEmail() {
 		return email;
 	}
@@ -64,19 +65,19 @@ public class Visitante {
 	}
 
 	@Column
-	public Date getFechaPrimeraVisita() {
-		return fechaPrimeraVisita;
+	public Date getPrimeraVisita() {
+		return primeraVisita;
 	}
-	public void setFechaPrimeraVisita(Date fechaPrimeraVisita) {
-		this.fechaPrimeraVisita = fechaPrimeraVisita;
+	public void setPrimeraVisita(Date primeraVisita) {
+		this.primeraVisita = primeraVisita;
 	}
 
 	@Column
-	public Date getFechaUltimaVisita() {
-		return fechaUltimaVisita;
+	public Date getUltimaVisita() {
+		return ultimaVisita;
 	}
-	public void setFechaUltimaVisita(Date fechaUltimaVisita) {
-		this.fechaUltimaVisita = fechaUltimaVisita;
+	public void setUltimaVisita(Date ultimaVisita) {
+		this.ultimaVisita = ultimaVisita;
 	}
 
 	@Column
@@ -105,7 +106,7 @@ public class Visitante {
 
 	@Override
 	public String toString() {
-		return String.format("(%s,%s,%s,%d,%d,%d)", email, fechaPrimeraVisita, 
-				fechaUltimaVisita, visitasTotales, visitasAnioActual, visitasMesActual);
+		return String.format("(%s,%s,%s,%d,%d,%d)", email, primeraVisita, 
+				ultimaVisita, visitasTotales, visitasAnioActual, visitasMesActual);
 	}
 }

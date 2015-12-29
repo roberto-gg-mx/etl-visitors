@@ -3,24 +3,29 @@ package com.vinkos.visitas.entity;
 import java.util.Date;
 import javax.persistence.*;
 
-//TODO: categorizar errores
-// el manejode errores debería ser mucho más profundo...
-
 @Entity
 @Table(name = "Error")
 public class Error {
 
 	private Integer id;
 	private String registro;
-	private String tipoError;
+	private Type tipoError;
 	private Date fecha;
+
+	public enum Type {
+		SOURCE_FILE,
+		DATA_VALIDATION,
+		STORE_INCONSITENCY,
+		BACKUP_CREATION,
+		BACKUP_DELETION
+	}
 
 	public Error() {}
 
-	public Error(String registro, String tipoError, Date fecha) {
+	public Error(String registro, Type tipoError) {
 		this.registro = registro;
 		this.tipoError = tipoError;
-		this.fecha = fecha;
+		this.fecha = new Date();
 	}
 
 	@Id
@@ -33,7 +38,7 @@ public class Error {
 		this.id = id;
 	}
 
-	@Column(length=255)
+	@Column(length=255, nullable=false)
 	public String getRegistro() {
 		return registro;
 	}
@@ -42,15 +47,16 @@ public class Error {
 		this.registro = registro;
 	}
 
-	@Column(length=255)
-	public String getTipoError() {
+	@Column(nullable=false)
+	public Type getTipoError() {
 		return tipoError;
 	}
 
-	public void setTipoError(String tipoError) {
+	public void setTipoError(Type tipoError) {
 		this.tipoError = tipoError;
 	}
 
+	@Column(nullable=false)
 	public Date getFecha() {
 		return fecha;
 	}

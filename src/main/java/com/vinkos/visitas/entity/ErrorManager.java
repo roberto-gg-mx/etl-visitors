@@ -5,23 +5,17 @@ import java.util.GregorianCalendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.vinkos.visitas.etl.Validator.formatter;
-
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
 
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.SQLQuery;
 import org.hibernate.Transaction;
 
+import com.vinkos.visitas.entity.Error.Type;
 import com.vinkos.visitas.util.HibernateUtil;
 
-public class ErroresManager {
+public class ErrorManager {
 
 	private static SessionFactory factory;
 
@@ -32,7 +26,7 @@ public class ErroresManager {
 			System.err.println("Failed to create sessionFactory object." + ex);
 			throw new ExceptionInInitializerError(ex);
 		}
-		ErroresManager ME = new ErroresManager();
+		ErrorManager ME = new ErrorManager();
 
 		Date today = new Date();
 		Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
@@ -41,13 +35,9 @@ public class ErroresManager {
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 
-		Error obj1 = new Error("david.eduardo.vega@hotmail.com", "", calendar.getTime());
-		Error obj2 = new Error("l_pch@yahoo.com", "", calendar.getTime());
-		Error obj3 = new Error("fxanax6@yahoo.com", "", calendar.getTime());
-
-		Integer empID1 = ErroresManager.addError(obj1);
-		Integer empID2 = ErroresManager.addError(obj2);
-		Integer empID3 = ErroresManager.addError(obj3);
+		Integer empID1 = ErrorManager.addError("david.eduardo.vega@hotmail.com", Type.DATA_VALIDATION);
+		Integer empID2 = ErrorManager.addError("l_pch@yahoo.com", Type.DATA_VALIDATION);
+		Integer empID3 = ErrorManager.addError("fxanax6@yahoo.com", Type.DATA_VALIDATION);
 
 		/* List down all the employees */
 		ME.listErrors();
@@ -78,13 +68,13 @@ public class ErroresManager {
 		return true;
 	}
 
-	public static Integer addError(Error error) {
+	public static Integer addError(String registro, Type tipoError) {
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Integer errorID = null;
 		try {
 			tx = session.beginTransaction();
-			errorID = (Integer) session.save(error);
+			errorID = (Integer) session.save(new Error(registro, tipoError));
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

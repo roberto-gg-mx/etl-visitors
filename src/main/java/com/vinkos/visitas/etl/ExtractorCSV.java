@@ -10,16 +10,16 @@ import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.log4j.Logger;
 
 import com.vinkos.visitas.entity.Estadistica;
 
 import org.apache.commons.csv.CSVPrinter;
 import static com.vinkos.visitas.etl.Validator.formatter;
 
-//TODO: Podemos tener los headers, y con ello saber la longitud
-//TODO: rawData
-
 public class ExtractorCSV {
+
+	final static Logger logger = Logger.getLogger(ExtractorCSV.class);
 
 	public static List<List<String>> readCsvFile(String fileName, String[] headers) {
 		FileReader fileReader = null;
@@ -64,8 +64,7 @@ public class ExtractorCSV {
                 fileReader.close();
                 csvFileParser.close();
             } catch (IOException e) {
-            	System.out.println("Error while closing fileReader/csvFileParser !!!");
-                e.printStackTrace();
+            	logger.error("Error while closing fileReader/csvFileParser !!!", e);
             }
         }
         return data;

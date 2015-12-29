@@ -5,9 +5,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
+
 public class JDBCTransaction {
 
 	private static Connection dbConnection = null;
+	final static Logger logger = Logger.getLogger(JDBCTransaction.class);
 
 	private static Connection getDBConnection() {
 		if (dbConnection != null) {
@@ -25,7 +28,7 @@ public class JDBCTransaction {
 					Configuration.get("user").toString(), Configuration.get("pwd").toString());
 			return dbConnection;
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			logger.error("Establishing connection", e);
 		}
 
 		return dbConnection;

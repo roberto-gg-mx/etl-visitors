@@ -8,10 +8,6 @@ import java.text.ParseException;
 import javax.persistence.*;
 import com.vinkos.visitas.etl.Validator;
 
-// TODO: tenemos diferentes formas de escribir Win7, windows 7, windows 7.0, etc, se creará un diccionario/tag? se pueden agrupar?
-//Diccionario
-
-
 @Entity
 @Table(name = "Estadistica")
 public class Estadistica {
@@ -100,7 +96,7 @@ public class Estadistica {
 		this.id = id;
 	}
 
-	@Column(unique=true, length=63)
+	@Column(length=63, nullable=false)
 	public String getEmail() {
 		return email;
 	}
